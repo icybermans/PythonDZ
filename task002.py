@@ -1,29 +1,31 @@
-# Задача 32: Определить индексы элементов массива (списка), значения которых 
-# принадлежат заданному диапазону (т.е. не меньше заданного минимума и не больше 
-# заданного максимума)
+# Напишите функцию print_operation_table(operation, num_rows=6, num_columns=6),
+# которая принимает в качестве аргумента функцию, вычисляющую элемент по номеру строки и
+# столбца. Аргументы num_rows и num_columns указывают число строк и столбцов таблицы,
+# которые должны быть распечатаны. Нумерация строк и столбцов идет с единицы (подумайте,
+# почему не с нуля). Примечание: бинарной операцией называется любая операция, у которой
+# ровно два аргумента, как, например, у операции умножения.
 
-min_value = int(input("Укажите нижнюю границу интервала: "))
-max_value = int(input("Укажите верхнюю границу интервала: "))
+def print_operation_table(operation, num_rows=6, num_columns=6):
 
-n = int(input("Укажите количество элементов в генерируемом списке: "))
+# ----------- 1й способ ----------
+    # for i in range(1, num_rows + 1):
+    #     for j in range(1, num_columns + 1):
+    #         print(f'%3d' %(operation(i, j)), end = ' ')
+    #     print()
 
-import random
+# ---------- 2й способ - сырой-----------
+    # print([[operation(i, j) for i in range(1, num_rows + 1)] 
+    #                             for j in range(1, num_columns + 1)])
 
-def generate_random_array(n):
-    list_random_numbers = []
-    for i in range(n):
-        list_random_numbers.append(random.randint(1, 100))
-    return list_random_numbers
+# ---------- 2.1й способ ----------
+    # for i in [[operation(i, j) for i in range(1, num_rows + 1)] for j in range(1, num_columns + 1)]: 
+    #     for j in i:
+    #         print(f'%3d' %(j), end = ' ')
+    #     print()
 
-def find_list_indeces(mx, mn, current_list):
-    list_indeces = []
-    for i in range(len(current_list)):
-        if current_list[i] >= mn and current_list[i] <= mx:
-            list_indeces.append(i)
-    return list_indeces
+# ---------- 3й способ -----------
+    return list(map(lambda x: print(f'{x}'),[[operation(i, j) for i in range(1, num_rows + 1)] for j in range(1, num_columns + 1)]))
+print_operation_table(lambda x, y: x * y)
 
-generate_list = generate_random_array(n)
-result = find_list_indeces(max_value, min_value, generate_list)
 
-print(generate_list)
-print(result)
+
